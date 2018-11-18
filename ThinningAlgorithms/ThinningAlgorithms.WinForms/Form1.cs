@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Imaging;
 
 namespace ThinningAlgorithms.WinForms
 {
     public partial class Form1 : Form
     {
-        bool stopAfterOperation = true;
         int stopValue = 50;
+        int saveValue;
 
         public Form1()
         {
@@ -36,6 +37,7 @@ namespace ThinningAlgorithms.WinForms
             if (pictureBox1.Image == null)
                 return;
 
+            saveValue = 0;
             binImage();
             if (modK3MBtn.Checked)
             {
@@ -124,8 +126,14 @@ namespace ThinningAlgorithms.WinForms
                                     224, 225, 227, 231, 239, 240, 241, 243, 247, 248,
                                     249, 251, 252, 253, 254 };
 
-            if (stopAfterOperation) System.Threading.Thread.Sleep(stopValue);
+            if (stopCheckBox.Checked) System.Threading.Thread.Sleep(stopValue);
             Bitmap b = (Bitmap)pictureBox1.Image;
+            Image saveImage = b;
+            if (saveCheckBox.Checked)
+            {
+                saveImage.Save("K3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                saveValue++;
+            }
             int weight;
             bool change;
             List<(int, int)> marked = new List<(int, int)>();
@@ -160,6 +168,18 @@ namespace ThinningAlgorithms.WinForms
                     marked.Remove(p);
                 }
                 changed.Clear();
+                if (stopCheckBox.Checked)
+                {
+                    pictureBox1.Image = b;
+                    pictureBox1.Refresh();
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("K3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
+                }
                 foreach ((int, int) p in marked) //Phase 2 - Delete 3/4
                 {
                     weight = K3MCalculateWeight(p.Item1, p.Item2, b);
@@ -175,6 +195,18 @@ namespace ThinningAlgorithms.WinForms
                     marked.Remove(p);
                 }
                 changed.Clear();
+                if (stopCheckBox.Checked)
+                {
+                    pictureBox1.Image = b;
+                    pictureBox1.Refresh();
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("K3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
+                }
                 foreach ((int, int) p in marked) //Phase 3 - Delete 3/4/5
                 {
                     weight = K3MCalculateWeight(p.Item1, p.Item2, b);
@@ -190,6 +222,18 @@ namespace ThinningAlgorithms.WinForms
                     marked.Remove(p);
                 }
                 changed.Clear();
+                if (stopCheckBox.Checked)
+                {
+                    pictureBox1.Image = b;
+                    pictureBox1.Refresh();
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("K3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
+                }
                 foreach ((int, int) p in marked) //Phase 4 - Delete 3/4/5/6
                 {
                     weight = K3MCalculateWeight(p.Item1, p.Item2, b);
@@ -205,6 +249,18 @@ namespace ThinningAlgorithms.WinForms
                     marked.Remove(p);
                 }
                 changed.Clear();
+                if (stopCheckBox.Checked)
+                {
+                    pictureBox1.Image = b;
+                    pictureBox1.Refresh();
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("K3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
+                }
                 foreach ((int, int) p in marked) //Phase 5 - Delete 3/4/5/6/7
                 {
                     weight = K3MCalculateWeight(p.Item1, p.Item2, b);
@@ -220,11 +276,17 @@ namespace ThinningAlgorithms.WinForms
                     marked.Remove(p);
                 }
                 changed.Clear();
-                if (stopAfterOperation)
+                if (stopCheckBox.Checked)
                 {
                     pictureBox1.Image = b;
                     pictureBox1.Refresh();
                     System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("K3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
                 }
                 marked.Clear(); //Phase 6 - Unmark
             } while (change);
@@ -238,6 +300,11 @@ namespace ThinningAlgorithms.WinForms
                         b.SetPixel(i, j, Color.White);
                     }
                 }
+            }
+            if (saveCheckBox.Checked)
+            {
+                saveImage = b;
+                saveImage.Save("K3M" + saveValue.ToString() + ".png", ImageFormat.Png);
             }
             pictureBox1.Image = b;
             pictureBox1.Refresh();
@@ -267,8 +334,14 @@ namespace ThinningAlgorithms.WinForms
             int[] A1px = new int[] { 2, 5, 13, 20, 21, 22, 32, 48, 52, 54, 65, 67,
                                     69, 80, 81, 84, 88, 97, 99, 128, 133, 141, 208, 216 };
 
-            if (stopAfterOperation) System.Threading.Thread.Sleep(stopValue);
+            if (stopCheckBox.Checked) System.Threading.Thread.Sleep(stopValue);
             Bitmap b = (Bitmap)pictureBox1.Image;
+            Image saveImage = b;
+            if (saveCheckBox.Checked)
+            { 
+                saveImage.Save("ModK3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                saveValue++;
+            }
             int weight;
             bool change;
             List<(int, int)> marked = new List<(int, int)>();
@@ -341,6 +414,18 @@ namespace ThinningAlgorithms.WinForms
                         change = true;
                     }
                 }
+                if (stopCheckBox.Checked)
+                {
+                    pictureBox1.Image = b;
+                    pictureBox1.Refresh();
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("ModK3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
+                }
                 foreach ((int, int) p in marked) //Phase 2 - Delete 3/4
                 {
                     weight = K3MCalculateWeight(p.Item1, p.Item2, b);
@@ -371,6 +456,18 @@ namespace ThinningAlgorithms.WinForms
                             markedForDeletion.Remove(p);
                         change = true;
                     }
+                }
+                if (stopCheckBox.Checked)
+                {
+                    pictureBox1.Image = b;
+                    pictureBox1.Refresh();
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("ModK3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
                 }
                 foreach ((int, int) p in marked) //Phase 3 - Delete 3/4/5
                 {
@@ -403,6 +500,18 @@ namespace ThinningAlgorithms.WinForms
                         change = true;
                     }
                 }
+                if (stopCheckBox.Checked)
+                {
+                    pictureBox1.Image = b;
+                    pictureBox1.Refresh();
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("ModK3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
+                }
                 foreach ((int, int) p in marked) //Phase 4 - Delete 3/4/5/6
                 {
                     weight = K3MCalculateWeight(p.Item1, p.Item2, b);
@@ -433,6 +542,18 @@ namespace ThinningAlgorithms.WinForms
                             markedForDeletion.Remove(p);
                         change = true;
                     }
+                }
+                if (stopCheckBox.Checked)
+                {
+                    pictureBox1.Image = b;
+                    pictureBox1.Refresh();
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("ModK3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
                 }
                 foreach ((int, int) p in marked) //Phase 5 - Delete 3/4/5/6/7
                 {
@@ -465,11 +586,17 @@ namespace ThinningAlgorithms.WinForms
                         change = true;
                     }
                 }
-                if (stopAfterOperation)
+                if (stopCheckBox.Checked)
                 {
                     pictureBox1.Image = b;
                     pictureBox1.Refresh();
                     System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("ModK3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
                 }
                 marked.Clear(); //Phase 6 - Unmark
             } while (change);
@@ -484,14 +611,25 @@ namespace ThinningAlgorithms.WinForms
                     }
                 }
             }
+            if (saveCheckBox.Checked)
+            {
+                saveImage = b;
+                saveImage.Save("ModK3M" + saveValue.ToString() + ".png", ImageFormat.Png);
+            }
             pictureBox1.Image = b;
             pictureBox1.Refresh();
         }
 
         private void ZhangAndWang()
         {
-            if (stopAfterOperation) System.Threading.Thread.Sleep(stopValue);
+            if (stopCheckBox.Checked) System.Threading.Thread.Sleep(stopValue);
             Bitmap b = (Bitmap)pictureBox1.Image;
+            Image saveImage = b;
+            if (saveCheckBox.Checked)
+            {
+                saveImage.Save("ZhangAndWang" + saveValue.ToString() + ".png", ImageFormat.Png);
+                saveValue++;
+            }
             List<(int, int)> zwdeletable = new List<(int, int)>();
             bool d;
             int bp, cp;
@@ -587,12 +725,17 @@ namespace ThinningAlgorithms.WinForms
                 {
                     b.SetPixel(p.Item1, p.Item2, Color.White);
                 }
-
-                if (stopAfterOperation)
+                if (stopCheckBox.Checked)
                 {
                     pictureBox1.Image = b;
                     pictureBox1.Refresh();
                     System.Threading.Thread.Sleep(stopValue);
+                }
+                if (saveCheckBox.Checked)
+                {
+                    saveImage = b;
+                    saveImage.Save("ZhangAndWang" + saveValue.ToString() + ".png", ImageFormat.Png);
+                    saveValue++;
                 }
             } while (zwdeletable.Count != 0);
             pictureBox1.Image = b;
@@ -602,7 +745,7 @@ namespace ThinningAlgorithms.WinForms
         private void binImage()
         {
             Bitmap b = (Bitmap)pictureBox1.Image;
-            for (int i = 0; i < b.Width; i++)
+            for (int i = 0; i < b.Width; i++) //grayscale
             {
                 for (int j = 0; j < b.Height; j++)
                 {
@@ -610,7 +753,7 @@ namespace ThinningAlgorithms.WinForms
                     b.SetPixel(i, j, Color.FromArgb(n, n, n));
                 }
             }
-            for (int i = 0; i < b.Width; i++)
+            for (int i = 0; i < b.Width; i++) //binaryzation
             {
                 for (int j = 0; j < b.Height; j++)
                 {
