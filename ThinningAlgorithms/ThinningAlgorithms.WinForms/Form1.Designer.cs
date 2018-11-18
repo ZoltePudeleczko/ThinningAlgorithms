@@ -37,6 +37,7 @@
             this.zhangWangBtn = new System.Windows.Forms.RadioButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.K3MBtn = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -78,8 +79,9 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.goBtn);
-            this.flowLayoutPanel1.Controls.Add(this.modK3MBtn);
             this.flowLayoutPanel1.Controls.Add(this.zhangWangBtn);
+            this.flowLayoutPanel1.Controls.Add(this.K3MBtn);
+            this.flowLayoutPanel1.Controls.Add(this.modK3MBtn);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 389);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -100,7 +102,7 @@
             // 
             this.modK3MBtn.AutoSize = true;
             this.modK3MBtn.Checked = true;
-            this.modK3MBtn.Location = new System.Drawing.Point(84, 3);
+            this.modK3MBtn.Location = new System.Drawing.Point(318, 3);
             this.modK3MBtn.Name = "modK3MBtn";
             this.modK3MBtn.Size = new System.Drawing.Size(123, 17);
             this.modK3MBtn.TabIndex = 1;
@@ -111,7 +113,7 @@
             // zhangWangBtn
             // 
             this.zhangWangBtn.AutoSize = true;
-            this.zhangWangBtn.Location = new System.Drawing.Point(213, 3);
+            this.zhangWangBtn.Location = new System.Drawing.Point(84, 3);
             this.zhangWangBtn.Name = "zhangWangBtn";
             this.zhangWangBtn.Size = new System.Drawing.Size(142, 17);
             this.zhangWangBtn.TabIndex = 2;
@@ -131,6 +133,16 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // K3MBtn
+            // 
+            this.K3MBtn.AutoSize = true;
+            this.K3MBtn.Location = new System.Drawing.Point(232, 3);
+            this.K3MBtn.Name = "K3MBtn";
+            this.K3MBtn.Size = new System.Drawing.Size(80, 17);
+            this.K3MBtn.TabIndex = 3;
+            this.K3MBtn.Text = "K3M (2010)";
+            this.K3MBtn.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -164,6 +176,7 @@
         private System.Windows.Forms.RadioButton zhangWangBtn;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.RadioButton K3MBtn;
     }
 }
 
