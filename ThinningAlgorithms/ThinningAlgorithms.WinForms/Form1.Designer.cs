@@ -31,19 +31,20 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loadImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.goBtn = new System.Windows.Forms.Button();
             this.zhangWangBtn = new System.Windows.Forms.RadioButton();
             this.K3MBtn = new System.Windows.Forms.RadioButton();
             this.modK3MBtn = new System.Windows.Forms.RadioButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.stopCheckBox = new System.Windows.Forms.CheckBox();
             this.saveCheckBox = new System.Windows.Forms.CheckBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.KMMBtn = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -80,17 +81,28 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(734, 437);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(728, 371);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.goBtn);
             this.flowLayoutPanel1.Controls.Add(this.zhangWangBtn);
+            this.flowLayoutPanel1.Controls.Add(this.KMMBtn);
             this.flowLayoutPanel1.Controls.Add(this.K3MBtn);
             this.flowLayoutPanel1.Controls.Add(this.modK3MBtn);
             this.flowLayoutPanel1.Controls.Add(this.stopCheckBox);
             this.flowLayoutPanel1.Controls.Add(this.saveCheckBox);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 380);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(445, 54);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(594, 54);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // goBtn
@@ -116,7 +128,7 @@
             // K3MBtn
             // 
             this.K3MBtn.AutoSize = true;
-            this.K3MBtn.Location = new System.Drawing.Point(232, 3);
+            this.K3MBtn.Location = new System.Drawing.Point(321, 3);
             this.K3MBtn.Name = "K3MBtn";
             this.K3MBtn.Size = new System.Drawing.Size(80, 17);
             this.K3MBtn.TabIndex = 3;
@@ -127,27 +139,13 @@
             // 
             this.modK3MBtn.AutoSize = true;
             this.modK3MBtn.Checked = true;
-            this.modK3MBtn.Location = new System.Drawing.Point(318, 3);
+            this.modK3MBtn.Location = new System.Drawing.Point(407, 3);
             this.modK3MBtn.Name = "modK3MBtn";
             this.modK3MBtn.Size = new System.Drawing.Size(123, 17);
             this.modK3MBtn.TabIndex = 1;
             this.modK3MBtn.TabStop = true;
             this.modK3MBtn.Text = "Modified K3M (2016)";
             this.modK3MBtn.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(728, 371);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // stopCheckBox
             // 
@@ -169,6 +167,20 @@
             this.saveCheckBox.Text = "Save images";
             this.saveCheckBox.UseVisualStyleBackColor = true;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // KMMBtn
+            // 
+            this.KMMBtn.AutoSize = true;
+            this.KMMBtn.Location = new System.Drawing.Point(232, 3);
+            this.KMMBtn.Name = "KMMBtn";
+            this.KMMBtn.Size = new System.Drawing.Size(83, 17);
+            this.KMMBtn.TabIndex = 6;
+            this.KMMBtn.Text = "KMM (2002)";
+            this.KMMBtn.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -183,9 +195,9 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,6 +217,7 @@
         private System.Windows.Forms.RadioButton K3MBtn;
         private System.Windows.Forms.CheckBox stopCheckBox;
         private System.Windows.Forms.CheckBox saveCheckBox;
+        private System.Windows.Forms.RadioButton KMMBtn;
     }
 }
 

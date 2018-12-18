@@ -39,22 +39,28 @@ namespace ThinningAlgorithms.WinForms
 
             saveValue = 0;
             binImage();
+            Bitmap b = new Bitmap(0,0);
             if (modK3MBtn.Checked)
             {
-                ModifiedK3M();
+                b = ModifiedK3M();
             }
             else if (K3MBtn.Checked)
             {
-                K3M();
+                b = K3M();
             }
             else if (zhangWangBtn.Checked)
             {
-                ZhangAndWang();
+                b = ZhangAndWang();
             }
-                
+            else if (KMMBtn.Checked)
+            {
+                b = KMM();
+            }
+            pictureBox1.Image = b;
+            pictureBox1.Refresh();
         }
 
-        private int K3MCalculateWeight(int i, int j, Bitmap b)
+        private int CalculateWeight(int i, int j, Bitmap b)
         {
             int[] N = new int[] { 128, 1, 2, 64, 0, 4, 32, 16, 8 };
             int weight = 0;
@@ -77,7 +83,7 @@ namespace ThinningAlgorithms.WinForms
             return weight;
         }
 
-        private int K3MCalculateWeight2(int i, int j, Bitmap b, List<(int, int)> marked)
+        private int ModifiedK3MCalculateWeight2(int i, int j, Bitmap b, List<(int, int)> marked)
         {
             int[] N = new int[] { 128, 1, 2, 64, 0, 4, 32, 16, 8 };
             int weight = 0;
@@ -100,7 +106,7 @@ namespace ThinningAlgorithms.WinForms
             return weight;
         }
 
-        private void K3M()
+        private Bitmap K3M()
         {
             int[] A0 = new int[] { 3, 6, 7, 12, 14, 15, 24, 28, 30, 31, 48, 56, 60,
                                     62, 63, 96, 112, 120, 124, 126, 127, 129, 131, 135,
@@ -147,7 +153,7 @@ namespace ThinningAlgorithms.WinForms
                     {
                         if (b.GetPixel(i, j).ToArgb() == Color.Black.ToArgb())
                         {
-                            weight = K3MCalculateWeight(i, j, b);
+                            weight = CalculateWeight(i, j, b);
                             if (A0.Contains(weight))
                                 marked.Add((i, j));
                         }
@@ -155,7 +161,7 @@ namespace ThinningAlgorithms.WinForms
                 }
                 foreach ((int, int) p in marked) //Phase 1 - Delete 3
                 {
-                    weight = K3MCalculateWeight(p.Item1, p.Item2, b);
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
                     if (A1.Contains(weight))
                     {
                         b.SetPixel(p.Item1, p.Item2, Color.White);
@@ -182,7 +188,7 @@ namespace ThinningAlgorithms.WinForms
                 }
                 foreach ((int, int) p in marked) //Phase 2 - Delete 3/4
                 {
-                    weight = K3MCalculateWeight(p.Item1, p.Item2, b);
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
                     if (A2.Contains(weight))
                     {
                         b.SetPixel(p.Item1, p.Item2, Color.White);
@@ -209,7 +215,7 @@ namespace ThinningAlgorithms.WinForms
                 }
                 foreach ((int, int) p in marked) //Phase 3 - Delete 3/4/5
                 {
-                    weight = K3MCalculateWeight(p.Item1, p.Item2, b);
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
                     if (A3.Contains(weight))
                     {
                         b.SetPixel(p.Item1, p.Item2, Color.White);
@@ -236,7 +242,7 @@ namespace ThinningAlgorithms.WinForms
                 }
                 foreach ((int, int) p in marked) //Phase 4 - Delete 3/4/5/6
                 {
-                    weight = K3MCalculateWeight(p.Item1, p.Item2, b);
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
                     if (A4.Contains(weight))
                     {
                         b.SetPixel(p.Item1, p.Item2, Color.White);
@@ -263,7 +269,7 @@ namespace ThinningAlgorithms.WinForms
                 }
                 foreach ((int, int) p in marked) //Phase 5 - Delete 3/4/5/6/7
                 {
-                    weight = K3MCalculateWeight(p.Item1, p.Item2, b);
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
                     if (A5.Contains(weight))
                     {
                         b.SetPixel(p.Item1, p.Item2, Color.White);
@@ -294,7 +300,7 @@ namespace ThinningAlgorithms.WinForms
             {
                 for (int j = 0; j < b.Height; j++)
                 {
-                    weight = K3MCalculateWeight(i, j, b);
+                    weight = CalculateWeight(i, j, b);
                     if (A1px.Contains(weight))
                     {
                         b.SetPixel(i, j, Color.White);
@@ -306,11 +312,10 @@ namespace ThinningAlgorithms.WinForms
                 saveImage = b;
                 saveImage.Save("K3M" + saveValue.ToString() + ".png", ImageFormat.Png);
             }
-            pictureBox1.Image = b;
-            pictureBox1.Refresh();
+            return b;
         }
 
-        private void ModifiedK3M()
+        private Bitmap ModifiedK3M()
         {
             int[] A0 = new int[] { 3, 6, 7, 12, 14, 15, 24, 28, 30, 31, 48, 56, 60,
                                     62, 63, 96, 112, 120, 124, 126, 127, 129, 131, 135,
@@ -355,7 +360,7 @@ namespace ThinningAlgorithms.WinForms
                     {
                         if (b.GetPixel(i, j).ToArgb() == Color.Black.ToArgb())
                         {
-                            weight = K3MCalculateWeight(i, j, b);
+                            weight = CalculateWeight(i, j, b);
                             if (A0.Contains(weight))
                             {
                                 marked.Add((i, j));
@@ -378,14 +383,14 @@ namespace ThinningAlgorithms.WinForms
                     {
                         if (marked.Contains((i, j)))
                             continue;
-                        weight = K3MCalculateWeight2(i, j, b, marked);
+                        weight = ModifiedK3MCalculateWeight2(i, j, b, marked);
                         if (A0a.Contains(weight))
                             marked.Add((i, j));
                     }
                 }
                 foreach ((int, int) p in marked) //Phase 1 - Delete 3
                 {
-                    weight = K3MCalculateWeight(p.Item1, p.Item2, b);
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
                     if (A1.Contains(weight) || markedForDeletion.Contains(p))
                     {
                         if (weight == 241 && p.Item2 + 2 < b.Height && p.Item1 + 1 < b.Width 
@@ -393,7 +398,7 @@ namespace ThinningAlgorithms.WinForms
                             && b.GetPixel(p.Item1, p.Item2 + 2).ToArgb() == Color.White.ToArgb()
                             && b.GetPixel(p.Item1 + 1, p.Item2 + 2).ToArgb() == Color.White.ToArgb())
                         {
-                            weight = K3MCalculateWeight(p.Item1, p.Item2 + 1, b);
+                            weight = CalculateWeight(p.Item1, p.Item2 + 1, b);
                             if (A1.Contains(weight))
                             {
                                 b.SetPixel(p.Item1, p.Item2 + 1, Color.White);
@@ -402,7 +407,7 @@ namespace ThinningAlgorithms.WinForms
                         else if ((weight == 195 || weight == 227) 
                             && p.Item1 + 1 < b.Width && p.Item2 - 1 > 0 && marked.Contains((p.Item1 + 1, p.Item2 - 1)))
                         {
-                            weight = K3MCalculateWeight(p.Item1 + 1, p.Item2 - 1, b);
+                            weight = CalculateWeight(p.Item1 + 1, p.Item2 - 1, b);
                             if (A1.Contains(weight))
                             {
                                 markedForDeletion.Add((p.Item1 + 1, p.Item2 - 1));
@@ -428,7 +433,7 @@ namespace ThinningAlgorithms.WinForms
                 }
                 foreach ((int, int) p in marked) //Phase 2 - Delete 3/4
                 {
-                    weight = K3MCalculateWeight(p.Item1, p.Item2, b);
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
                     if (A2.Contains(weight) || markedForDeletion.Contains(p))
                     {
                         if (weight == 241 && p.Item2 + 2 < b.Height && p.Item1 + 1 < b.Width
@@ -436,7 +441,7 @@ namespace ThinningAlgorithms.WinForms
                             && b.GetPixel(p.Item1, p.Item2 + 2).ToArgb() == Color.White.ToArgb()
                             && b.GetPixel(p.Item1 + 1, p.Item2 + 2).ToArgb() == Color.White.ToArgb())
                         {
-                            weight = K3MCalculateWeight(p.Item1, p.Item2 + 1, b);
+                            weight = CalculateWeight(p.Item1, p.Item2 + 1, b);
                             if (A2.Contains(weight))
                             {
                                 b.SetPixel(p.Item1, p.Item2 + 1, Color.White);
@@ -445,7 +450,7 @@ namespace ThinningAlgorithms.WinForms
                         else if ((weight == 195 || weight == 227)
                             && p.Item1 + 1 < b.Width && p.Item2 - 1 > 0 && marked.Contains((p.Item1 + 1, p.Item2 - 1)))
                         {
-                            weight = K3MCalculateWeight(p.Item1 + 1, p.Item2 - 1, b);
+                            weight = CalculateWeight(p.Item1 + 1, p.Item2 - 1, b);
                             if (A2.Contains(weight))
                             {
                                 markedForDeletion.Add((p.Item1 + 1, p.Item2 - 1));
@@ -471,7 +476,7 @@ namespace ThinningAlgorithms.WinForms
                 }
                 foreach ((int, int) p in marked) //Phase 3 - Delete 3/4/5
                 {
-                    weight = K3MCalculateWeight(p.Item1, p.Item2, b);
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
                     if (A3.Contains(weight) || markedForDeletion.Contains(p))
                     {
                         if (weight == 241 && p.Item2 + 2 < b.Height && p.Item1 + 1 < b.Width
@@ -479,7 +484,7 @@ namespace ThinningAlgorithms.WinForms
                             && b.GetPixel(p.Item1, p.Item2 + 2).ToArgb() == Color.White.ToArgb()
                             && b.GetPixel(p.Item1 + 1, p.Item2 + 2).ToArgb() == Color.White.ToArgb())
                         {
-                            weight = K3MCalculateWeight(p.Item1, p.Item2 + 1, b);
+                            weight = CalculateWeight(p.Item1, p.Item2 + 1, b);
                             if (A3.Contains(weight))
                             {
                                 b.SetPixel(p.Item1, p.Item2 + 1, Color.White);
@@ -488,7 +493,7 @@ namespace ThinningAlgorithms.WinForms
                         else if ((weight == 195 || weight == 227)
                             && p.Item1 + 1 < b.Width && p.Item2 - 1 > 0 && marked.Contains((p.Item1 + 1, p.Item2 - 1)))
                         {
-                            weight = K3MCalculateWeight(p.Item1 + 1, p.Item2 - 1, b);
+                            weight = CalculateWeight(p.Item1 + 1, p.Item2 - 1, b);
                             if (A3.Contains(weight))
                             {
                                 markedForDeletion.Add((p.Item1 + 1, p.Item2 - 1));
@@ -514,7 +519,7 @@ namespace ThinningAlgorithms.WinForms
                 }
                 foreach ((int, int) p in marked) //Phase 4 - Delete 3/4/5/6
                 {
-                    weight = K3MCalculateWeight(p.Item1, p.Item2, b);
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
                     if (A4.Contains(weight) || markedForDeletion.Contains(p))
                     {
                         if (weight == 241 && p.Item2 + 2 < b.Height && p.Item1 + 1 < b.Width
@@ -522,7 +527,7 @@ namespace ThinningAlgorithms.WinForms
                             && b.GetPixel(p.Item1, p.Item2 + 2).ToArgb() == Color.White.ToArgb()
                             && b.GetPixel(p.Item1 + 1, p.Item2 + 2).ToArgb() == Color.White.ToArgb())
                         {
-                            weight = K3MCalculateWeight(p.Item1, p.Item2 + 1, b);
+                            weight = CalculateWeight(p.Item1, p.Item2 + 1, b);
                             if (A4.Contains(weight))
                             {
                                 b.SetPixel(p.Item1, p.Item2 + 1, Color.White);
@@ -531,7 +536,7 @@ namespace ThinningAlgorithms.WinForms
                         else if ((weight == 195 || weight == 227)
                             && p.Item1 + 1 < b.Width && p.Item2 - 1 > 0 && marked.Contains((p.Item1 + 1, p.Item2 - 1)))
                         {
-                            weight = K3MCalculateWeight(p.Item1 + 1, p.Item2 - 1, b);
+                            weight = CalculateWeight(p.Item1 + 1, p.Item2 - 1, b);
                             if (A4.Contains(weight))
                             {
                                 markedForDeletion.Add((p.Item1 + 1, p.Item2 - 1));
@@ -557,7 +562,7 @@ namespace ThinningAlgorithms.WinForms
                 }
                 foreach ((int, int) p in marked) //Phase 5 - Delete 3/4/5/6/7
                 {
-                    weight = K3MCalculateWeight(p.Item1, p.Item2, b);
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
                     if (A5.Contains(weight) || markedForDeletion.Contains(p))
                     {
                         if (weight == 241 && p.Item2 + 2 < b.Height && p.Item1 + 1 < b.Width
@@ -565,7 +570,7 @@ namespace ThinningAlgorithms.WinForms
                             && b.GetPixel(p.Item1, p.Item2 + 2).ToArgb() == Color.White.ToArgb()
                             && b.GetPixel(p.Item1 + 1, p.Item2 + 2).ToArgb() == Color.White.ToArgb())
                         {
-                            weight = K3MCalculateWeight(p.Item1, p.Item2 + 1, b);
+                            weight = CalculateWeight(p.Item1, p.Item2 + 1, b);
                             if (A5.Contains(weight))
                             {
                                 b.SetPixel(p.Item1, p.Item2 + 1, Color.White);
@@ -574,7 +579,7 @@ namespace ThinningAlgorithms.WinForms
                         else if ((weight == 195 || weight == 227)
                             && p.Item1 + 1 < b.Width && p.Item2 - 1 > 0 && marked.Contains((p.Item1 + 1, p.Item2 - 1)))
                         {
-                            weight = K3MCalculateWeight(p.Item1 + 1, p.Item2 - 1, b);
+                            weight = CalculateWeight(p.Item1 + 1, p.Item2 - 1, b);
                             if (A5.Contains(weight))
                             {
                                 markedForDeletion.Add((p.Item1 + 1, p.Item2 - 1));
@@ -604,7 +609,7 @@ namespace ThinningAlgorithms.WinForms
             {
                 for (int j = 0; j < b.Height; j++)
                 {
-                    weight = K3MCalculateWeight(i, j, b);
+                    weight = CalculateWeight(i, j, b);
                     if (A1px.Contains(weight))
                     {
                         b.SetPixel(i, j, Color.White);
@@ -616,11 +621,10 @@ namespace ThinningAlgorithms.WinForms
                 saveImage = b;
                 saveImage.Save("ModK3M" + saveValue.ToString() + ".png", ImageFormat.Png);
             }
-            pictureBox1.Image = b;
-            pictureBox1.Refresh();
+            return b;
         }
 
-        private void ZhangAndWang()
+        private Bitmap ZhangAndWang()
         {
             if (stopCheckBox.Checked) System.Threading.Thread.Sleep(stopValue);
             Bitmap b = (Bitmap)pictureBox1.Image;
@@ -738,8 +742,23 @@ namespace ThinningAlgorithms.WinForms
                     saveValue++;
                 }
             } while (zwdeletable.Count != 0);
-            pictureBox1.Image = b;
-            pictureBox1.Refresh();
+            return b;
+        }
+
+        private Bitmap KMM()
+        {
+            int[] A = new int[] { };
+
+            if (stopCheckBox.Checked) System.Threading.Thread.Sleep(stopValue);
+            Bitmap b = (Bitmap)pictureBox1.Image;
+            Image saveImage = b;
+            if (saveCheckBox.Checked)
+            {
+                saveImage.Save("KMM" + saveValue.ToString() + ".png", ImageFormat.Png);
+                saveValue++;
+            }
+
+            return b;
         }
 
         private void binImage()
@@ -753,11 +772,12 @@ namespace ThinningAlgorithms.WinForms
                     b.SetPixel(i, j, Color.FromArgb(n, n, n));
                 }
             }
+            int threshold = Otsu(b);
             for (int i = 0; i < b.Width; i++) //binaryzation
             {
                 for (int j = 0; j < b.Height; j++)
                 {
-                    if (b.GetPixel(i, j).R < 100)
+                    if (b.GetPixel(i, j).R < threshold)
                     {
                         b.SetPixel(i, j, Color.Black);
                     }
@@ -769,6 +789,53 @@ namespace ThinningAlgorithms.WinForms
             }
             pictureBox1.Image = b;
             pictureBox1.Refresh();
+        }
+
+        private int Otsu(Bitmap b)
+        {
+            int[] histogram = new int[256];
+            for (int i = 0; i < b.Width; i++)
+            {
+                for (int j = 0; j < b.Height; j++)
+                {
+                    histogram[b.GetPixel(i, j).R]++;
+                }
+            }
+
+            int total = b.Width * b.Height;
+
+            float sum = 0;
+            for (int i = 0; i < 256; i++)
+                sum += i * histogram[i];
+
+            float sumB = 0;
+            int wB = 0;
+            int wF = 0;
+
+            float varMax = 0;
+            int threshold = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                wB += histogram[i];
+                if (wB == 0) continue;
+
+                wF = total - wB;
+                if (wF == 0) break;
+
+                sumB += (float)(i * histogram[i]);
+
+                float mB = sumB / wB;
+                float mF = (sum - sumB) / wF;
+
+                float varBetween = (float)wB * (float)wF * (mB - mF) * (mB - mF);
+
+                if (varBetween > varMax)
+                {
+                    varMax = varBetween;
+                    threshold = i;
+                }
+            }
+            return threshold;
         }
     }
 }
