@@ -1,0 +1,215 @@
+﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Linq;
+
+namespace ThinningAlgorithms.WinForms
+{
+	class K3M : ThinningAlgorithm
+	{
+		public K3M() : base("K3M (2010)") { }
+
+        public override Bitmap Thin(MainWindow win, Bitmap b, bool stop, int stopValue, bool save)
+		{
+            int[] A0 = new int[] { 3, 6, 7, 12, 14, 15, 24, 28, 30, 31, 48, 56, 60,
+                                    62, 63, 96, 112, 120, 124, 126, 127, 129, 131, 135,
+                                    143, 159, 191, 192, 193, 195, 199, 207, 223, 224,
+                                    225, 227, 231, 239, 240, 241, 243, 247, 248, 249,
+                                    251, 252, 253, 254 };
+            int[] A1 = new int[] { 7, 14, 28, 56, 112, 131, 193, 224 };
+            int[] A2 = new int[] { 7, 14, 15, 28, 30, 56, 60, 112, 120, 131, 135,
+                                    193, 195, 224, 225, 240 };
+            int[] A3 = new int[] { 7, 14, 15, 28, 30, 31, 56, 60, 62, 112, 120,
+                                    124, 131, 135, 143, 193, 195, 199, 224, 225, 227,
+                                    240, 241, 248 };
+            int[] A4 = new int[] { 7, 14, 15, 28, 30, 31, 56, 60, 62, 63, 112, 120,
+                                    124, 126, 131, 135, 143, 159, 193, 195, 199, 207,
+                                    224, 225, 227, 231, 240, 241, 243, 248, 249, 252 };
+            int[] A5 = new int[] { 7, 14, 15, 28, 30, 31, 56, 60, 62, 63, 112, 120,
+                                    124, 126, 131, 135, 143, 159, 191, 193, 195, 199,
+                                    207, 224, 225, 227, 231, 239, 240, 241, 243, 248,
+                                    249, 251, 252, 254 };
+            int[] A1px = new int[] { 3, 6, 7, 12, 14, 15, 24, 28, 30, 31, 48, 56,
+                                    60, 62, 63, 96, 112, 120, 124, 126, 127, 129, 131,
+                                    135, 143, 159, 191, 192, 193, 195, 199, 207, 223,
+                                    224, 225, 227, 231, 239, 240, 241, 243, 247, 248,
+                                    249, 251, 252, 253, 254 };
+
+            if (stop) System.Threading.Thread.Sleep(stopValue);
+            Image saveImage = b;
+            if (save)
+            {
+                saveImage.Save("K3M" + SaveValue.ToString() + ".png", ImageFormat.Png);
+                SaveValue++;
+            }
+            int weight;
+            bool change;
+            List<(int, int)> marked = new List<(int, int)>();
+            List<(int, int)> changed = new List<(int, int)>();
+            do
+            {
+                change = false;
+                for (int i = 0; i < b.Width; i++) //Phase 0 - Mark
+                {
+                    for (int j = 0; j < b.Height; j++)
+                    {
+                        if (b.GetPixel(i, j).ToArgb() == Color.Black.ToArgb())
+                        {
+                            weight = CalculateWeight(i, j, b);
+                            if (A0.Contains(weight))
+                                marked.Add((i, j));
+                        }
+                    }
+                }
+                foreach ((int, int) p in marked) //Phase 1 - Delete 3
+                {
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
+                    if (A1.Contains(weight))
+                    {
+                        b.SetPixel(p.Item1, p.Item2, Color.White);
+                        changed.Add(p);
+                        change = true;
+                    }
+                }
+                foreach ((int, int) p in changed)
+                {
+                    marked.Remove(p);
+                }
+                changed.Clear();
+                if (stop)
+                {
+                    win.UpdateImage(b);
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (save)
+                {
+                    saveImage = b;
+                    saveImage.Save("K3M" + SaveValue.ToString() + ".png", ImageFormat.Png);
+                    SaveValue++;
+                }
+                foreach ((int, int) p in marked) //Phase 2 - Delete 3/4
+                {
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
+                    if (A2.Contains(weight))
+                    {
+                        b.SetPixel(p.Item1, p.Item2, Color.White);
+                        changed.Add(p);
+                        change = true;
+                    }
+                }
+                foreach ((int, int) p in changed)
+                {
+                    marked.Remove(p);
+                }
+                changed.Clear();
+                if (stop)
+                {
+                    win.UpdateImage(b);
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (save)
+                {
+                    saveImage = b;
+                    saveImage.Save("K3M" + SaveValue.ToString() + ".png", ImageFormat.Png);
+                    SaveValue++;
+                }
+                foreach ((int, int) p in marked) //Phase 3 - Delete 3/4/5
+                {
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
+                    if (A3.Contains(weight))
+                    {
+                        b.SetPixel(p.Item1, p.Item2, Color.White);
+                        changed.Add(p);
+                        change = true;
+                    }
+                }
+                foreach ((int, int) p in changed)
+                {
+                    marked.Remove(p);
+                }
+                changed.Clear();
+                if (stop)
+                {
+                    win.UpdateImage(b);
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (save)
+                {
+                    saveImage = b;
+                    saveImage.Save("K3M" + SaveValue.ToString() + ".png", ImageFormat.Png);
+                    SaveValue++;
+                }
+                foreach ((int, int) p in marked) //Phase 4 - Delete 3/4/5/6
+                {
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
+                    if (A4.Contains(weight))
+                    {
+                        b.SetPixel(p.Item1, p.Item2, Color.White);
+                        changed.Add(p);
+                        change = true;
+                    }
+                }
+                foreach ((int, int) p in changed)
+                {
+                    marked.Remove(p);
+                }
+                changed.Clear();
+                if (stop)
+                {
+                    win.UpdateImage(b);
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (save)
+                {
+                    saveImage = b;
+                    saveImage.Save("K3M" + SaveValue.ToString() + ".png", ImageFormat.Png);
+                    SaveValue++;
+                }
+                foreach ((int, int) p in marked) //Phase 5 - Delete 3/4/5/6/7
+                {
+                    weight = CalculateWeight(p.Item1, p.Item2, b);
+                    if (A5.Contains(weight))
+                    {
+                        b.SetPixel(p.Item1, p.Item2, Color.White);
+                        changed.Add(p);
+                        change = true;
+                    }
+                }
+                foreach ((int, int) p in changed)
+                {
+                    marked.Remove(p);
+                }
+                changed.Clear();
+                if (stop)
+                {
+                    win.UpdateImage(b);
+                    System.Threading.Thread.Sleep(stopValue);
+                }
+                if (save)
+                {
+                    saveImage = b;
+                    saveImage.Save("K3M" + SaveValue.ToString() + ".png", ImageFormat.Png);
+                    SaveValue++;
+                }
+                marked.Clear(); //Phase 6 - Unmark
+            } while (change);
+            for (int i = 0; i < b.Width; i++) //1 pixel Phase
+            {
+                for (int j = 0; j < b.Height; j++)
+                {
+                    weight = CalculateWeight(i, j, b);
+                    if (A1px.Contains(weight))
+                    {
+                        b.SetPixel(i, j, Color.White);
+                    }
+                }
+            }
+            if (save)
+            {
+                saveImage = b;
+                saveImage.Save("K3M" + SaveValue.ToString() + ".png", ImageFormat.Png);
+            }
+            return b;
+        }
+    }
+}
