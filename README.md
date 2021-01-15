@@ -1,4 +1,4 @@
-# ThinningAlgorithms
+# Thinning Algorithms
 
 A collection of thinning algorithms's implementetions in C# bundled up with visualizations. Option to save pictures step by step included. GUI written using .NET's Windows Forms.
 
