@@ -4,5 +4,6 @@ A collection of thinning algorithms's implementetions in C# bundled up with visu
 
 ## Implemented Algorithms
 - Zhang and Wang (1988)
+- KMM (2002)
 - K3M (2010)
 - Modified K3M (2016)
