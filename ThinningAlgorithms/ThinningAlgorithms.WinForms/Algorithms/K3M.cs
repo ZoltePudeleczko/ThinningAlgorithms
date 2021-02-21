@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 
-namespace ThinningAlgorithms.WinForms
+namespace ThinningAlgorithms.Algorithms
 {
 	class K3M : ThinningAlgorithm
 	{

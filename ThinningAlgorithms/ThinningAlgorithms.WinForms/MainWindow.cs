@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using ThinningAlgorithms.Algorithms;
 
-namespace ThinningAlgorithms.WinForms
+namespace ThinningAlgorithms
 {
     public partial class MainWindow : Form
     {
-        int stopValue = 50;
+		readonly int stopValue = 50;
 
-        List<ThinningAlgorithm> thinningAlgorithms = new List<ThinningAlgorithm> {
+		readonly List<ThinningAlgorithm> thinningAlgorithms = new List<ThinningAlgorithm> {
             new ZhangWang(),
             new KMM(),
             new K3M(),
@@ -27,6 +28,7 @@ namespace ThinningAlgorithms.WinForms
         private void loadImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.Title = "Load image";
+            openFileDialog1.FileName = "Image";
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -40,8 +42,13 @@ namespace ThinningAlgorithms.WinForms
             if (pictureBox1.Image == null)
                 return;
 
-            binImage();
-            pictureBox1.Image = ((ThinningAlgorithm)thinComboBox.SelectedItem).Thin(this, (Bitmap)pictureBox1.Image, stopCheckBox.Checked, stopValue, saveCheckBox.Checked);
+            BinImage();
+            pictureBox1.Image = ((ThinningAlgorithm)thinComboBox.SelectedItem).Thin(
+                this,
+                (Bitmap)pictureBox1.Image,
+                stopCheckBox.Checked,
+                stopValue,
+                saveCheckBox.Checked);
             pictureBox1.Refresh();
         }
 
@@ -51,7 +58,7 @@ namespace ThinningAlgorithms.WinForms
             pictureBox1.Refresh();
         }
 
-        private void binImage()
+        private void BinImage()
         {
             Bitmap b = new Bitmap(pictureBox1.Image);
             for (int i = 0; i < b.Width; i++) //grayscale

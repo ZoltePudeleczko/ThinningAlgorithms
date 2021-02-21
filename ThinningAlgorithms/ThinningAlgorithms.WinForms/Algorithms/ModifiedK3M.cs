@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 
-namespace ThinningAlgorithms.WinForms
+namespace ThinningAlgorithms.Algorithms
 {
-	class ModifiedK3M : ThinningAlgorithm
+    class ModifiedK3M : ThinningAlgorithm
 	{
 		public ModifiedK3M() : base("Modified K3M (2016)") { }
 

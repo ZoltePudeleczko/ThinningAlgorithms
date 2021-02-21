@@ -1,16 +1,16 @@
 ﻿using System.Drawing;
 
-namespace ThinningAlgorithms.WinForms
+namespace ThinningAlgorithms.Algorithms
 {
-	public abstract class ThinningAlgorithm
+    public abstract class ThinningAlgorithm
 	{
 		public string Name { get; set; }
 		public int SaveValue { get; set; }
 
 		public ThinningAlgorithm(string name)
 		{
-			this.Name = name;
-			this.SaveValue = 0;
+			Name = name;
+			SaveValue = 0;
 		}
 
 		public override string ToString()

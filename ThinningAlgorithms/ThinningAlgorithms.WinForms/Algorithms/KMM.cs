@@ -2,9 +2,9 @@
 using System.Drawing.Imaging;
 using System.Linq;
 
-namespace ThinningAlgorithms.WinForms
+namespace ThinningAlgorithms.Algorithms
 {
-	class KMM : ThinningAlgorithm
+    class KMM : ThinningAlgorithm
 	{
 		public KMM() : base("KMM (2002)") { }
 

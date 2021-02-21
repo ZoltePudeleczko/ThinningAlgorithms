@@ -2,9 +2,9 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace ThinningAlgorithms.WinForms
+namespace ThinningAlgorithms.Algorithms
 {
-	public class ZhangWang : ThinningAlgorithm
+    public class ZhangWang : ThinningAlgorithm
 	{
 		public ZhangWang() : base("Zhang and Wang (1988)") { }
 
